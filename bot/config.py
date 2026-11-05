@@ -51,6 +51,9 @@ TRIBUTE_LINKS = {
     if (link := os.getenv(f"TRIBUTE_LINK_{amount}", "").strip())
 }
 
+#Redis
+REDIS_HOST = os.getenv("REDIS_HOST", "redis")
+REDIS_PORT = int(os.getenv("REDIS_PORT", 6379))
 
 #Документы
 PRIVACY_POLICY_URL = os.getenv("PRIVACY_POLICY_URL")
