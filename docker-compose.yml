@@ -4,13 +4,13 @@ services:
     container_name: hubnet_bot
     restart: always
     env_file:
-      - bot/.env
+      - .env
     environment:
-      DB_HOST: db #######нужно опдумать что и как 
+      DB_HOST: database
     ports:
       - "8081:8081"
     depends_on:
-      db:
+      database:
         condition: service_healthy
       redis:
         condition: service_healthy
@@ -18,13 +18,12 @@ services:
     networks:
       - tgnet
 
-#проверен
   redis:
     image: redis:7.2-alpine
     container_name: redis
     restart: always
     volumes:
-      - redis_data:/data         # ← добавлен
+      - redis_data:/data   
     networks:
       - tgnet
     healthcheck:
@@ -33,8 +32,7 @@ services:
       timeout: 5s
       retries: 10  
 
-#проверен
-  db:
+  database:
     image: postgres:16-alpine
     container_name: hubnet_db
     restart: always
