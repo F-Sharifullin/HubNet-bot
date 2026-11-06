@@ -1,7 +1,9 @@
 import asyncio
 
 from aiogram import Bot, Dispatcher
-from aiogram.fsm.storage.redis import RedisStorage
+from aiogram.fsm.storage.memory import MemoryStorage
+
+#from aiogram.fsm.storage.redis import RedisStorage
 from aiohttp import web
 
 from bot.app.database import resync_all_expiry  # чтоб старые ключи обновили строки
@@ -12,14 +14,15 @@ from bot.app.services import x3ui
 from bot.app.tasks import start_scheduler
 from bot.config import (
     BOT_TOKEN,
-    REDIS_HOST,
-    REDIS_PORT,
+    #REDIS_HOST,
+    #REDIS_PORT,
     TRIBUTE_WEBHOOK_HOST,
     TRIBUTE_WEBHOOK_PORT,
 )
 
 bot = Bot(token=BOT_TOKEN)
-storage = RedisStorage.from_url(f"redis://{REDIS_HOST}:{REDIS_PORT}")
+storage = MemoryStorage()
+#storage = RedisStorage.from_url(f"redis://{REDIS_HOST}:{REDIS_PORT}")
 dp = Dispatcher(storage=storage)
 
 
