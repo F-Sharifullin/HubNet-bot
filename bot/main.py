@@ -19,7 +19,6 @@ from bot.config import (
 )
 
 bot = Bot(token=BOT_TOKEN)
-
 storage = RedisStorage.from_url(f"redis://{REDIS_HOST}:{REDIS_PORT}")
 dp = Dispatcher(storage=storage)
 
