@@ -2,7 +2,7 @@ import os
 
 from dotenv import load_dotenv
 
-load_dotenv(".env.local", override=True)
+load_dotenv()
 
 #Telegram
 BOT_TOKEN = os.getenv('BOT_TOKEN')
