@@ -20,7 +20,7 @@ router = Router()
 
 # ⚠️ ТЕСТОВЫЙ РЕЖИМ: кулдаун "раз в месяц" отключён.
 # Перед продакшеном — поставить False.
-TEST_MODE_NO_COOLDOWN = True
+TEST_MODE_NO_COOLDOWN = False
 
 
 class WheelFSM(StatesGroup):
