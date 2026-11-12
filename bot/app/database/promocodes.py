@@ -53,13 +53,15 @@ async def activate_promocode(telegram_id: int, code: str) -> dict:
         # Начисление — тот же SQL, что в add_balance_and_enable_if_needed,
         # но на соединении транзакции (иначе начисление и запись активации
         # не будут атомарными).
+        
         row = await conn.fetchrow(
             """
             UPDATE users
-            SET balance = balance + $1::int,
-                low_balance = 0
+            SET balance = balance + $1::numeric,
+                low_balance = 0,
+                last_topup = NOW()
             WHERE telegram_id = $2
-            RETURNING balance, (balance - $1::int) = 0 AS was_zero
+            RETURNING balance, (balance - $1::numeric) = 0 AS was_zero
             """,
             promo["amount"], telegram_id,
         )
@@ -76,8 +78,10 @@ async def activate_promocode(telegram_id: int, code: str) -> dict:
     # Транзакция закоммичена. Обращения к панели — уже вне неё,
     # чтобы не держать блокировку строки промокода на время HTTP-запросов.
     was_zero = bool(row["was_zero"])
-    if was_zero:
+    try:
         await enable_user_subscriptions(telegram_id)
+    except Exception:
+        logger.exception("Не удалось синхронизировать панель для %s после промокода", telegram_id)
 
     logger.info(
         "Промокод %s активирован пользователем %s (+%s₽)",
