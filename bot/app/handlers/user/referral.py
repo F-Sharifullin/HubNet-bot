@@ -7,8 +7,11 @@ from bot.app.keyboards.user import invite_user
 
 router = Router()
 
+@router.callback_query(F.data == "referral")
+async def tv_android(callback: CallbackQuery):
+    await callback.answer("⚠️ Раздел в разработке", show_alert=True)
 
-@router.callback_query(F.data == 'referral')
+@router.callback_query(F.data == 'referral_disabled')
 async def referral(callback: CallbackQuery):
     await callback.answer()
     bot_info = await callback.bot.get_me()
