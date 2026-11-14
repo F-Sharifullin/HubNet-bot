@@ -30,7 +30,6 @@ async def referral(callback: CallbackQuery):
         f"&text={quote(share_text, safe='')}"
     )
     
-# НУЖНЫ ПЕРЕМЕННЫЕ...
     stats = await get_referral_stats(callback.from_user.id)
     invited = stats["invited"]
     active = stats["active"]
