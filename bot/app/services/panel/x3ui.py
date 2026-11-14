@@ -90,7 +90,6 @@ class X3UI:
         prefix_map = {
             "android": "AND",
             "ios": "IOS",
-            "computer": "PC",
             "windows": "PC",
         }
         prefix = prefix_map.get(device.lower(), "DEV")

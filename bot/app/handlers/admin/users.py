@@ -49,7 +49,7 @@ class AdminMessageFSM(StatesGroup):
 DEVICE_NAMES = {
     "android": "📱 Android",
     "ios": "📱 IOS",
-    "computer": "💻 Компьютер",
+    "windows": "💻 Компьютер",
 }
 
 
