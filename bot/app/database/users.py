@@ -191,3 +191,22 @@ async def resync_all_expiry():
             await sync_user_clients(uid)
 
     await asyncio.gather(*(_one(r["telegram_id"]) for r in rows), return_exceptions=True)
+
+
+async def get_referral_stats(telegram_id: int) -> dict:
+    async with get_connection() as conn:
+        row = await conn.fetchrow(
+            """
+            SELECT
+                COUNT(*)                                            AS invited,
+                COUNT(*) FILTER (WHERE balance > 0 AND devices > 0) AS active
+            FROM users
+            WHERE referrer_id = $1
+            """,
+            telegram_id,
+        )
+    return {
+        "invited": row["invited"],
+        "active": row["active"],
+        "bonuses": row["invited"] * 100,
+    }
